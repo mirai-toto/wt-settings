@@ -5,7 +5,7 @@ A CLI to read and write [Windows Terminal](https://github.com/microsoft/terminal
 ## Installation
 
 ```bash
-pip install wt-settings
+uv tool install wt-settings
 ```
 
 Or from source:
@@ -13,7 +13,7 @@ Or from source:
 ```bash
 git clone https://github.com/mirai-toto/wt-settings.git
 cd wt-settings
-pip install -e .
+uv tool install -e .
 ```
 
 ## Usage
