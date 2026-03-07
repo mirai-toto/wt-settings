@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import Any, Optional
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 class Font(BaseModel):
     model_config = ConfigDict(extra="allow")
@@ -24,6 +24,6 @@ class Profile(BaseModel):
     fontFace: Optional[str] = None  # legacy field
 
 class Profiles(BaseModel):
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
     defaults: Optional[dict[str, Any]] = None
-    list: Optional[list[Profile]] = None
+    profiles: Optional[list[Profile]] = Field(default=None, alias="list")

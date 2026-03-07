@@ -12,7 +12,7 @@ def list_profiles(ctx: typer.Context) -> None:
     """List all profiles."""
     config: Config = ctx.obj
     settings = config.load()
-    profiles = (settings.profiles and settings.profiles.list) or []
+    profiles = (settings.profiles and settings.profiles.profiles) or []
     if not profiles:
         typer.echo("No profiles found.")
         return
@@ -51,10 +51,10 @@ def add_profile(
         commandline=commandline,
     )
     if settings.profiles is None:
-        settings.profiles = Profiles(list=[])
-    if settings.profiles.list is None:
-        settings.profiles.list = []
-    settings.profiles.list.append(new_profile)
+        settings.profiles = Profiles(profiles=[])
+    if settings.profiles.profiles is None:
+        settings.profiles.profiles = []
+    settings.profiles.profiles.append(new_profile)
     config.save(settings)
     typer.echo(f"✓ Profile '{name}' added.")
 
@@ -73,6 +73,6 @@ def delete_profile(
         raise typer.Exit(1)
     if not force:
         typer.confirm(f"Delete profile '{name}'?", abort=True)
-    settings.profiles.list.pop(idx)
+    settings.profiles.profiles.pop(idx)
     config.save(settings)
     typer.echo(f"✓ Profile '{name}' deleted.")

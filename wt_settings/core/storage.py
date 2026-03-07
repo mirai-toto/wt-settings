@@ -37,7 +37,7 @@ def discover_settings_path() -> Path:
     )
 
 def load_settings(path: Path) -> Settings:
-    with open(path, "r", encoding="utf-8") as f:
+    with open(path, "r", encoding="utf-8-sig") as f:
         return Settings.model_validate(json.load(f))
 
 def save_settings(settings: Settings, path: Path, dry_run: bool = False) -> None:

@@ -4,7 +4,7 @@ from wt_settings.core.models import Settings
 
 def find_profile(settings: Settings, name: str) -> tuple[Profile | None, int]:
     """Find a profile by name. Returns (profile, index) or (None, -1)."""
-    for i, profile in enumerate((settings.profiles and settings.profiles.list) or []):
+    for i, profile in enumerate((settings.profiles and settings.profiles.profiles) or []):
         if profile.name == name:
             return profile, i
     return None, -1

@@ -1,8 +1,8 @@
 from pathlib import Path
 import typer
-from wt_settings.commands.profiles import app as profiles_app
-from wt_settings.commands.appearance import app as appearance_app
-from wt_settings.commands.schemes import app as schemes_app
+from wt_settings.commands.profiles.commands import app as profiles_app
+from wt_settings.commands.appearance.commands import app as appearance_app
+from wt_settings.commands.schemes.commands import app as schemes_app
 from wt_settings.core.config import Config
 from wt_settings.core.storage import discover_settings_path
 
