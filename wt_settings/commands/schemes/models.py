@@ -1,25 +1,24 @@
 from __future__ import annotations
-from typing import Optional
 from pydantic import BaseModel, ConfigDict
 
 class ColorScheme(BaseModel):
     model_config = ConfigDict(extra="allow")
-    name: Optional[str] = None
-    background: Optional[str] = None
-    foreground: Optional[str] = None
-    black: Optional[str] = None
-    red: Optional[str] = None
-    green: Optional[str] = None
-    yellow: Optional[str] = None
-    blue: Optional[str] = None
-    purple: Optional[str] = None
-    cyan: Optional[str] = None
-    white: Optional[str] = None
-    brightBlack: Optional[str] = None
-    brightRed: Optional[str] = None
-    brightGreen: Optional[str] = None
-    brightYellow: Optional[str] = None
-    brightBlue: Optional[str] = None
-    brightPurple: Optional[str] = None
-    brightCyan: Optional[str] = None
-    brightWhite: Optional[str] = None
+    name: str | None = None
+    background: str | None = None
+    foreground: str | None = None
+    black: str | None = None
+    red: str | None = None
+    green: str | None = None
+    yellow: str | None = None
+    blue: str | None = None
+    purple: str | None = None
+    cyan: str | None = None
+    white: str | None = None
+    brightBlack: str | None = None
+    brightRed: str | None = None
+    brightGreen: str | None = None
+    brightYellow: str | None = None
+    brightBlue: str | None = None
+    brightPurple: str | None = None
+    brightCyan: str | None = None
+    brightWhite: str | None = None

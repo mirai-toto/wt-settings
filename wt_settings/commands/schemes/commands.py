@@ -1,7 +1,9 @@
+from __future__ import annotations
 import json
 import typer
 from wt_settings.core.config import Config
-from wt_settings.commands.profiles.helpers import get_profile_or_abort
+from wt_settings.commands.profiles import service as profile_service
+from wt_settings.commands.schemes import service
 from wt_settings.commands.schemes.models import ColorScheme
 
 app = typer.Typer(help="Manage color schemes.")
@@ -26,9 +28,10 @@ def show_scheme(
     """Show all colors in a scheme."""
     config: Config = ctx.obj
     settings = config.load()
-    scheme = next((s for s in (settings.schemes or []) if s.name == name), None)
-    if scheme is None:
-        typer.echo(f"Scheme '{name}' not found.", err=True)
+    try:
+        scheme = service.get(settings, name)
+    except service.SchemeNotFound as e:
+        typer.echo(str(e), err=True)
         raise typer.Exit(1)
     typer.echo(json.dumps(scheme.model_dump(by_alias=True, exclude_none=True), indent=4))
 
@@ -51,7 +54,7 @@ def add_scheme(
     settings = config.load()
     if settings.schemes is None:
         settings.schemes = []
-    if next((s for s in settings.schemes if s.name == scheme.name), None):
+    if service.find(settings, scheme.name):
         typer.echo(f"Scheme '{scheme.name}' already exists. Use 'delete' first to replace it.", err=True)
         raise typer.Exit(1)
     settings.schemes.append(scheme)
@@ -67,14 +70,14 @@ def delete_scheme(
     """Delete a color scheme by name."""
     config: Config = ctx.obj
     settings = config.load()
-    schemes = settings.schemes or []
-    idx = next((i for i, s in enumerate(schemes) if s.name == name), None)
-    if idx is None:
-        typer.echo(f"Scheme '{name}' not found.", err=True)
+    try:
+        scheme = service.get(settings, name)
+    except service.SchemeNotFound as e:
+        typer.echo(str(e), err=True)
         raise typer.Exit(1)
     if not force:
         typer.confirm(f"Delete scheme '{name}'?", abort=True)
-    schemes.pop(idx)
+    settings.schemes.remove(scheme)
     config.save(settings)
     typer.echo(f"✓ Scheme '{name}' deleted.")
 
@@ -87,10 +90,15 @@ def apply_scheme(
     """Apply a color scheme to a profile."""
     config: Config = ctx.obj
     settings = config.load()
-    if not next((s for s in (settings.schemes or []) if s.name == scheme_name), None):
-        typer.echo(f"Scheme '{scheme_name}' not found.", err=True)
+    try:
+        service.get(settings, scheme_name)
+        profile = profile_service.get(settings, profile_name)
+    except service.SchemeNotFound as e:
+        typer.echo(str(e), err=True)
         raise typer.Exit(1)
-    profile, _ = get_profile_or_abort(settings, profile_name)
+    except profile_service.ProfileNotFound as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
     profile.colorScheme = scheme_name
     config.save(settings)
     typer.echo(f"✓ Scheme '{scheme_name}' applied to profile '{profile_name}'.")

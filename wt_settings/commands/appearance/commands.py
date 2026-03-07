@@ -1,6 +1,6 @@
 import typer
 from wt_settings.core.config import Config
-from wt_settings.commands.profiles.helpers import get_profile_or_abort
+from wt_settings.commands.profiles import service
 from wt_settings.commands.profiles.models import Font
 
 app = typer.Typer(help="Set appearance options for a profile.")
@@ -15,7 +15,11 @@ def set_font(
     """Set font face and/or size for a profile."""
     config: Config = ctx.obj
     settings = config.load()
-    profile, _ = get_profile_or_abort(settings, profile_name)
+    try:
+        profile = service.get(settings, profile_name)
+    except service.ProfileNotFound as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
     if profile.font is None:
         profile.font = Font()
     if face:
@@ -35,7 +39,11 @@ def set_opacity(
     """Set background opacity and optionally toggle acrylic for a profile."""
     config: Config = ctx.obj
     settings = config.load()
-    profile, _ = get_profile_or_abort(settings, profile_name)
+    try:
+        profile = service.get(settings, profile_name)
+    except service.ProfileNotFound as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
     profile.opacity = value
     if acrylic is not None:
         profile.useAcrylic = acrylic
@@ -54,7 +62,11 @@ def set_background(
     """Set or clear the background image for a profile."""
     config: Config = ctx.obj
     settings = config.load()
-    profile, _ = get_profile_or_abort(settings, profile_name)
+    try:
+        profile = service.get(settings, profile_name)
+    except service.ProfileNotFound as e:
+        typer.echo(str(e), err=True)
+        raise typer.Exit(1)
     if clear:
         profile.backgroundImage = None
         profile.backgroundImageOpacity = None

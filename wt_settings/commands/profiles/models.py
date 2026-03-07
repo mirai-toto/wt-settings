@@ -1,29 +1,29 @@
 from __future__ import annotations
-from typing import Any, Optional
+from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
 class Font(BaseModel):
     model_config = ConfigDict(extra="allow")
-    face: Optional[str] = None
-    size: Optional[int] = None
+    face: str | None = None
+    size: int | None = None
 
 class Profile(BaseModel):
     model_config = ConfigDict(extra="allow")
-    guid: Optional[str] = None
-    name: Optional[str] = None
-    hidden: Optional[bool] = None
-    commandline: Optional[str] = None
-    source: Optional[str] = None
-    font: Optional[Font] = None
-    colorScheme: Optional[str] = None
-    useAcrylic: Optional[bool] = None
-    opacity: Optional[int] = None
-    backgroundImage: Optional[str] = None
-    backgroundImageOpacity: Optional[float] = None
-    backgroundImageStretchMode: Optional[str] = None
-    fontFace: Optional[str] = None  # legacy field
+    guid: str | None = None
+    name: str | None = None
+    hidden: bool | None = None
+    commandline: str | None = None
+    source: str | None = None
+    font: Font | None = None
+    colorScheme: str | None = None
+    useAcrylic: bool | None = None
+    opacity: int | None = None
+    backgroundImage: str | None = None
+    backgroundImageOpacity: float | None = None
+    backgroundImageStretchMode: str | None = None
+    fontFace: str | None = None  # legacy field
 
 class Profiles(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
-    defaults: Optional[dict[str, Any]] = None
-    profiles: Optional[list[Profile]] = Field(default=None, alias="list")
+    defaults: dict[str, Any] | None = None
+    items: list[Profile] | None = Field(default=None, alias="list")
