@@ -81,6 +81,23 @@ Stretch modes: `fill`, `none`, `uniform`, `uniformToFill`.
 
 ---
 
+### Supported profile fields
+
+All standard Windows Terminal profile fields are recognized and preserved. Use `wts profile show <name>` to inspect them.
+
+| Category | Fields |
+|---|---|
+| **General** | `name`, `guid`, `source`, `commandline`, `startingDirectory`, `icon`, `tabTitle`, `hidden`, `elevate` |
+| **Font** | `font.face`, `font.size`, `font.weight`, `font.features`, `font.axes` |
+| **Cursor** | `cursorShape`, `cursorHeight`, `cursorColor` |
+| **Colors** | `colorScheme`, `foreground`, `background`, `selectionBackground`, `tabColor`, `adjustIndistinguishableColors`, `intenseTextStyle` |
+| **Background image** | `backgroundImage`, `backgroundImageOpacity`, `backgroundImageStretchMode`, `backgroundImageAlignment` |
+| **Transparency** | `opacity`, `useAcrylic` |
+| **Window** | `padding`, `scrollbarState`, `unfocusedAppearance` |
+| **Advanced** | `suppressApplicationTitle`, `antialiasingMode`, `altGrAliasing`, `snapOnInput`, `historySize`, `closeOnExit`, `bellStyle`, `bellSound`, `autoMarkPrompts`, `showMarksOnScrollbar`, `pathTranslationStyle` |
+
+---
+
 ### Color Schemes
 
 ```bash
