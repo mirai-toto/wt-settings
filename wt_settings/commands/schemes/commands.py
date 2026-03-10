@@ -103,11 +103,7 @@ def apply_scheme(
     config: Config = ctx.obj
     settings = config.load()
     try:
-        service.get(settings, scheme_name)
         profile = profile_service.get(settings, profile_name)
-    except service.SchemeNotFound as e:
-        typer.echo(str(e), err=True)
-        raise typer.Exit(1)
     except profile_service.ProfileNotFound as e:
         typer.echo(str(e), err=True)
         raise typer.Exit(1)
