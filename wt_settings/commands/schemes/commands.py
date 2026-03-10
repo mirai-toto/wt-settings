@@ -8,6 +8,7 @@ from wt_settings.commands.schemes.models import ColorScheme
 
 app = typer.Typer(help="Manage color schemes.")
 
+
 @app.command("list")
 def list_schemes(ctx: typer.Context) -> None:
     """List all color schemes."""
@@ -19,6 +20,7 @@ def list_schemes(ctx: typer.Context) -> None:
         return
     for s in schemes:
         typer.echo(f"  • {s.name or '<unnamed>'}")
+
 
 @app.command("show")
 def show_scheme(
@@ -33,12 +35,17 @@ def show_scheme(
     except service.SchemeNotFound as e:
         typer.echo(str(e), err=True)
         raise typer.Exit(1)
-    typer.echo(json.dumps(scheme.model_dump(by_alias=True, exclude_none=True), indent=4))
+    typer.echo(
+        json.dumps(scheme.model_dump(by_alias=True, exclude_none=True), indent=4)
+    )
+
 
 @app.command("add")
 def add_scheme(
     ctx: typer.Context,
-    file: typer.FileText = typer.Argument(..., help="Path to a JSON file containing the scheme"),
+    file: typer.FileText = typer.Argument(
+        ..., help="Path to a JSON file containing the scheme"
+    ),
 ) -> None:
     """Add a color scheme from a JSON file."""
     try:
@@ -55,11 +62,15 @@ def add_scheme(
     if settings.schemes is None:
         settings.schemes = []
     if service.find(settings, scheme.name):
-        typer.echo(f"Scheme '{scheme.name}' already exists. Use 'delete' first to replace it.", err=True)
+        typer.echo(
+            f"Scheme '{scheme.name}' already exists. Use 'delete' first to replace it.",
+            err=True,
+        )
         raise typer.Exit(1)
     settings.schemes.append(scheme)
     config.save(settings)
     typer.echo(f"✓ Scheme '{scheme.name}' added.")
+
 
 @app.command("delete")
 def delete_scheme(
@@ -80,6 +91,7 @@ def delete_scheme(
     settings.schemes.remove(scheme)
     config.save(settings)
     typer.echo(f"✓ Scheme '{name}' deleted.")
+
 
 @app.command("apply")
 def apply_scheme(

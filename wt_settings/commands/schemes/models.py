@@ -1,6 +1,7 @@
 from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 
+
 class ColorScheme(BaseModel):
     model_config = ConfigDict(extra="allow")
     name: str | None = None

@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import Any
 from pydantic import BaseModel, ConfigDict, Field
 
+
 class Font(BaseModel):
     model_config = ConfigDict(extra="allow")
     face: str | None = None
@@ -9,6 +10,7 @@ class Font(BaseModel):
     weight: str | None = None
     features: dict[str, int] | None = None
     axes: dict[str, float] | None = None
+
 
 class Profile(BaseModel):
     model_config = ConfigDict(extra="allow")
@@ -48,7 +50,6 @@ class Profile(BaseModel):
     # Appearance - window
     padding: str | None = None
     scrollbarState: str | None = None
-    unfocusedAppearance: dict[str, Any] | None = None
     # Advanced
     suppressApplicationTitle: bool | None = None
     antialiasingMode: str | None = None
@@ -61,6 +62,7 @@ class Profile(BaseModel):
     autoMarkPrompts: bool | None = None
     showMarksOnScrollbar: bool | None = None
     pathTranslationStyle: str | None = None
+
 
 class Profiles(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)

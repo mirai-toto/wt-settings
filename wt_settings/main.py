@@ -1,7 +1,6 @@
 from pathlib import Path
 import typer
 from wt_settings.commands.profiles.commands import app as profiles_app
-from wt_settings.commands.appearance.commands import app as appearance_app
 from wt_settings.commands.schemes.commands import app as schemes_app
 from wt_settings.core.config import Config
 from wt_settings.core.storage import discover_settings_path
@@ -12,8 +11,8 @@ app = typer.Typer(
     no_args_is_help=True,
 )
 app.add_typer(profiles_app, name="profile")
-app.add_typer(appearance_app, name="appearance")
 app.add_typer(schemes_app, name="scheme")
+
 
 @app.callback()
 def callback(
@@ -26,7 +25,9 @@ def callback(
         file_okay=True,
         dir_okay=False,
     ),
-    dry_run: bool = typer.Option(False, "--dry-run", help="Print what would be saved without writing."),
+    dry_run: bool = typer.Option(
+        False, "--dry-run", help="Print what would be saved without writing."
+    ),
 ) -> None:
     try:
         path = settings or discover_settings_path()
@@ -35,11 +36,13 @@ def callback(
         raise typer.Exit(1)
     ctx.obj = Config(settings_path=path, dry_run=dry_run)
 
+
 @app.command("path")
 def show_path(ctx: typer.Context) -> None:
     """Print the resolved path to settings.json."""
     config: Config = ctx.obj
     typer.echo(str(config.settings_path))
+
 
 if __name__ == "__main__":
     app()

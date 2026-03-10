@@ -33,7 +33,7 @@ wts --help
 
 ```bash
 wts --settings "C:/Users/you/AppData/Local/Packages/.../settings.json" profile list
-wts --dry-run appearance opacity "Ubuntu" 80
+wts --dry-run profile opacity "Ubuntu" 80
 ```
 
 ---
@@ -51,50 +51,90 @@ wts path
 ### Profiles
 
 ```bash
-wts profile list                                        # List all profiles
-wts profile show "Ubuntu"                               # Show a profile's settings
-wts profile add "MyProfile" --commandline "zsh"         # Add a profile
-wts profile add "MyProfile" --commandline "zsh" --guid "{...}"  # With explicit GUID
-wts profile delete "MyProfile"                          # Delete (asks for confirmation)
-wts profile delete "MyProfile" --force                  # Skip confirmation
+wts profile list                                         # List all profiles
+wts profile show "Ubuntu"                                # Show a profile's settings
+wts profile add "MyProfile" --commandline "zsh"          # Add a profile
+wts profile add "MyProfile" --commandline "zsh" \
+  --starting-directory "~" --icon "🐧" --tab-title "Dev" --elevate
+wts profile delete "MyProfile"                           # Delete (asks for confirmation)
+wts profile delete "MyProfile" --force                   # Skip confirmation
 ```
 
----
-
-### Appearance
+#### Font
 
 ```bash
-# Font
-wts appearance font "Ubuntu" --face "DroidSansM Nerd Font" --size 12
+wts profile font "Ubuntu" --face "DroidSansM Nerd Font" --size 12 --weight bold
+```
 
-# Opacity & acrylic
-wts appearance opacity "Ubuntu" 80 --acrylic
-wts appearance opacity "Ubuntu" 100 --no-acrylic
+#### Cursor
 
-# Background image
-wts appearance background "Ubuntu" --image "C:/Users/you/Pictures/bg.png" --opacity 0.2
-wts appearance background "Ubuntu" --image "C:/Users/you/Pictures/bg.png" --stretch uniformToFill
-wts appearance background "Ubuntu" --clear
+```bash
+wts profile cursor "Ubuntu" --shape bar --color "#ffffff"
+wts profile cursor "Ubuntu" --shape vintage --height 25
+```
+
+Cursor shapes: `bar`, `doubleUnderscore`, `emptyBox`, `filledBox`, `underscore`, `vintage`.
+
+#### Bell
+
+```bash
+wts profile bell "Ubuntu" --style audible
+wts profile bell "Ubuntu" --style visual --sound "C:/sounds/bell.wav"
+wts profile bell "Ubuntu" --disable
+```
+
+Bell styles: `audible`, `none`, `visual`, `window_title`.
+
+#### Background image
+
+```bash
+wts profile background "Ubuntu" --image "C:/Users/you/Pictures/bg.png" --opacity 0.2
+wts profile background "Ubuntu" --stretch uniformToFill --alignment center
+wts profile background "Ubuntu" --clear
 ```
 
 Stretch modes: `fill`, `none`, `uniform`, `uniformToFill`.
+Alignments: `bottom`, `bottomLeft`, `bottomRight`, `center`, `left`, `right`, `top`, `topLeft`, `topRight`.
 
----
+#### Opacity
 
-### Supported profile fields
+```bash
+wts profile opacity "Ubuntu" 80 --acrylic
+wts profile opacity "Ubuntu" 100 --no-acrylic
+```
 
-All standard Windows Terminal profile fields are recognized and preserved. Use `wts profile show <name>` to inspect them.
+#### Colors
 
-| Category | Fields |
-|---|---|
-| **General** | `name`, `guid`, `source`, `commandline`, `startingDirectory`, `icon`, `tabTitle`, `hidden`, `elevate` |
-| **Font** | `font.face`, `font.size`, `font.weight`, `font.features`, `font.axes` |
-| **Cursor** | `cursorShape`, `cursorHeight`, `cursorColor` |
-| **Colors** | `colorScheme`, `foreground`, `background`, `selectionBackground`, `tabColor`, `adjustIndistinguishableColors`, `intenseTextStyle` |
-| **Background image** | `backgroundImage`, `backgroundImageOpacity`, `backgroundImageStretchMode`, `backgroundImageAlignment` |
-| **Transparency** | `opacity`, `useAcrylic` |
-| **Window** | `padding`, `scrollbarState`, `unfocusedAppearance` |
-| **Advanced** | `suppressApplicationTitle`, `antialiasingMode`, `altGrAliasing`, `snapOnInput`, `historySize`, `closeOnExit`, `bellStyle`, `bellSound`, `autoMarkPrompts`, `showMarksOnScrollbar`, `pathTranslationStyle` |
+```bash
+wts profile colors "Ubuntu" --scheme "Dark+"
+wts profile colors "Ubuntu" --foreground "#d4d4d4" --background "#1e1e1e"
+wts profile colors "Ubuntu" --selection-bg "#264f78" --tab-color "#ff0000"
+wts profile colors "Ubuntu" --intense-style bold --adjust-indistinguishable always
+```
+
+#### Window
+
+```bash
+wts profile window "Ubuntu" --padding "8"
+wts profile window "Ubuntu" --scrollbar hidden
+```
+
+Scrollbar states: `always`, `hidden`, `visible`.
+
+#### Advanced
+
+```bash
+wts profile advanced "Ubuntu" --history-size 9001
+wts profile advanced "Ubuntu" --close-on-exit graceful
+wts profile advanced "Ubuntu" --antialiasing cleartype
+wts profile advanced "Ubuntu" --suppress-title --no-altgr-aliasing
+wts profile advanced "Ubuntu" --auto-mark-prompts --show-marks
+wts profile advanced "Ubuntu" --path-translation wsl
+```
+
+Close on exit modes: `always`, `graceful`, `never`.
+Antialiasing modes: `aliased`, `cleartype`, `grayscale`.
+Path translation styles: `cygwin`, `none`, `wsl`.
 
 ---
 

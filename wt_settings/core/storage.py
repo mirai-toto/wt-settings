@@ -8,24 +8,41 @@ _KNOWN_PACKAGES = [
     "Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe",
 ]
 
+
 def _discover_via_powershell(pkg: str) -> Path | None:
     try:
         result = subprocess.run(
-            ["powershell.exe", "-Command", "[Environment]::GetFolderPath('LocalApplicationData')"],
-            capture_output=True, text=True, timeout=5,
+            [
+                "powershell.exe",
+                "-Command",
+                "[Environment]::GetFolderPath('LocalApplicationData')",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=5,
         )
         if win_path := result.stdout.strip():
-            result2 = subprocess.run(["wslpath", win_path], capture_output=True, text=True, timeout=5)
+            result2 = subprocess.run(
+                ["wslpath", win_path], capture_output=True, text=True, timeout=5
+            )
             if wsl_path := result2.stdout.strip():
-                path = Path(wsl_path) / "Packages" / pkg / "LocalState" / "settings.json"
+                path = (
+                    Path(wsl_path) / "Packages" / pkg / "LocalState" / "settings.json"
+                )
                 return path if path.exists() else None
     except Exception:
         pass
     return None
 
+
 def _discover_via_glob(pkg: str) -> Path | None:
-    matches = sorted(Path("/mnt/c/Users").glob(f"*/AppData/Local/Packages/{pkg}/LocalState/settings.json"))
+    matches = sorted(
+        Path("/mnt/c/Users").glob(
+            f"*/AppData/Local/Packages/{pkg}/LocalState/settings.json"
+        )
+    )
     return matches[0] if matches else None
+
 
 def discover_settings_path() -> Path:
     """Auto-discover the Windows Terminal settings.json path."""
@@ -36,9 +53,11 @@ def discover_settings_path() -> Path:
             return path
     raise FileNotFoundError("Could not find Windows Terminal settings.json.")
 
+
 def load_settings(path: Path) -> Settings:
     with open(path, "r", encoding="utf-8-sig") as f:
         return Settings.model_validate(json.load(f))
+
 
 def save_settings(settings: Settings, path: Path, dry_run: bool = False) -> None:
     data = settings.model_dump(by_alias=True, exclude_none=True)

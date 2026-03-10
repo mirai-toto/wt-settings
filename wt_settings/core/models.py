@@ -4,19 +4,23 @@ from pydantic import BaseModel, ConfigDict, Field
 from wt_settings.commands.profiles.models import Profiles
 from wt_settings.commands.schemes.models import ColorScheme
 
+
 class Action(BaseModel):
     model_config = ConfigDict(extra="allow")
     command: Any = None
     id: str | None = None
+
 
 class Keybinding(BaseModel):
     model_config = ConfigDict(extra="allow")
     id: str | None = None
     keys: str | None = None
 
+
 class NewTabMenuItem(BaseModel):
     model_config = ConfigDict(extra="allow")
     type: str | None = None
+
 
 class Settings(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)

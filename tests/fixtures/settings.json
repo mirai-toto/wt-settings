@@ -1,0 +1,79 @@
+{
+    "$help": "https://aka.ms/terminal-documentation",
+    "$schema": "https://aka.ms/terminal-profiles-schema",
+    "actions": [
+        {
+            "command": { "action": "copy", "singleLine": false },
+            "id": "User.copy.644BA8F2"
+        },
+        {
+            "command": "paste",
+            "id": "User.paste"
+        }
+    ],
+    "copyFormatting": "none",
+    "copyOnSelect": false,
+    "defaultProfile": "{8a71a485-9334-5b8c-8aa3-ce931de7f156}",
+    "keybindings": [
+        { "id": "User.copy.644BA8F2", "keys": "ctrl+c" },
+        { "id": "User.paste", "keys": "ctrl+v" }
+    ],
+    "newTabMenu": [{ "type": "remainingProfiles" }],
+    "profiles": {
+        "defaults": {},
+        "list": [
+            {
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "name": "Windows PowerShell"
+            },
+            {
+                "colorScheme": "Dark+",
+                "commandline": "wsl -d UbuntuWsl -u mirai-toto --cd ~",
+                "font": { "face": "DroidSansM Nerd Font Mono" },
+                "guid": "{8a71a485-9334-5b8c-8aa3-ce931de7f156}",
+                "hidden": false,
+                "name": "UbuntuWsl",
+                "opacity": 80,
+                "source": "Microsoft.WSL",
+                "useAcrylic": true
+            },
+            {
+                "altGrAliasing": true,
+                "bellStyle": "none",
+                "font": { "face": "DroidSansM Nerd Font Mono" },
+                "guid": "{2e7da78d-a176-5855-a7a9-51f459fe5442}",
+                "hidden": false,
+                "name": "UbuntuWslDev",
+                "opacity": 80,
+                "source": "Microsoft.WSL",
+                "useAcrylic": true
+            }
+        ]
+    },
+    "schemes": [
+        {
+            "name": "Dark+",
+            "background": "#1E1E1E",
+            "foreground": "#D4D4D4",
+            "black": "#1E1E1E",
+            "red": "#F44747",
+            "green": "#6A9955",
+            "yellow": "#D7BA7D",
+            "blue": "#569CD6",
+            "purple": "#C586C0",
+            "cyan": "#4EC9B0",
+            "white": "#D4D4D4",
+            "brightBlack": "#808080",
+            "brightRed": "#F44747",
+            "brightGreen": "#6A9955",
+            "brightYellow": "#D7BA7D",
+            "brightBlue": "#569CD6",
+            "brightPurple": "#C586C0",
+            "brightCyan": "#4EC9B0",
+            "brightWhite": "#FFFFFF"
+        }
+    ],
+    "themes": []
+}

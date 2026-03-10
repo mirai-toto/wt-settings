@@ -19,3 +19,9 @@ wts = "wt_settings.main:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["wt_settings"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "ruff>=0.15.5",
+]
